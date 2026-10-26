@@ -1,0 +1,25 @@
+groups:
+  - name: sre-demo-alerts
+    rules:
+      - alert: DemoApiDown
+        expr: up{job="demo-api"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Demo API scrape target is down"
+          description: "Prometheus cannot scrape the demo API for at least one minute."
+
+      - alert: HighServerErrorRatio
+        expr: |
+          (
+            sum(rate(http_requests_total{job="demo-api",status=~"5.."}[5m]))
+            /
+            clamp_min(sum(rate(http_requests_total{job="demo-api"}[5m])), 1e-9)
+          ) > 0.05
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Server error ratio is above 5%"
+          description: "More than 5% of observed requests are returning 5xx responses."
