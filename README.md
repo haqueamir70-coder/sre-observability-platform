@@ -13,6 +13,17 @@
 
 </div>
 
+## Portfolio projects
+
+### 1. SRE Observability Platform
+Prometheus, Grafana, FastAPI, Docker Compose, service-level indicators, alert rules, and incident runbooks. Follow the setup and validate locally before claiming runtime verification.
+
+### 2. Secure GitOps Platform
+[Kubernetes security and delivery blueprint](projects/secure-gitops-platform/README.md) with a non-root container, hardened Kubernetes manifests, HPA/PDB, NetworkPolicy, Trivy vulnerability scanning, and SBOM generation in GitHub Actions. The CI workflow is committed; inspect the Actions run and validate against a real cluster before describing it as production-ready.
+
+### 3. Azure Cost Guardrails
+[Terraform cost governance lab](projects/azure-cost-guardrails/README.md) with a resource-group-scoped monthly budget and forecast/actual threshold notifications. Budget alerts are not hard spending caps; validate in a test subscription.
+
 ## Architecture
 
 ```mermaid
@@ -75,7 +86,7 @@ p95 latency:
 histogram_quantile(0.95, sum by (le) (rate(http_request_duration_seconds_bucket{job="demo-api"}[5m])))
 ```
 
-5xx error ratio (ratio is displayed as a percentage by Grafana's `percentunit` unit):
+5xx error ratio:
 
 ```promql
 (sum(rate(http_requests_total{job="demo-api",status=~"5.."}[5m])) or vector(0))
@@ -94,12 +105,13 @@ up{job="demo-api"}
 ```text
 .
 ├── app/                    # FastAPI app and Prometheus instrumentation
-├── grafana/
-│   ├── dashboards/         # Version-controlled dashboard JSON
-│   └── provisioning/       # Datasource and dashboard provisioning
+├── grafana/                # Dashboards and provisioning
 ├── prometheus/             # Scrape configuration and alert rules
 ├── docs/                   # Runbook, SLO notes, postmortem template
 ├── tests/                  # Smoke checks
+├── projects/
+│   ├── secure-gitops-platform/
+│   └── azure-cost-guardrails/
 ├── .github/workflows/      # CI validation
 ├── Dockerfile
 └── docker-compose.yml
@@ -117,7 +129,7 @@ up{job="demo-api"}
 
 ## Scope and security
 
-This is a local learning / portfolio environment, not a production deployment. Alert rules are examples and must be validated in the running stack. No cloud resources are created. Never commit secrets, production data, or real credentials.
+These are learning and portfolio projects, not automatically production deployments. Validate the workflows and manifests in your environment before claiming they are fully tested. Never commit secrets, production data, or real credentials.
 
 ## Author
 
