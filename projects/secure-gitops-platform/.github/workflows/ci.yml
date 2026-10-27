@@ -1,0 +1,68 @@
+name: Secure GitOps Platform CI
+
+on:
+  push:
+    paths:
+      - "projects/secure-gitops-platform/**"
+      - ".github/workflows/secure-gitops-platform.yml"
+  pull_request:
+    paths:
+      - "projects/secure-gitops-platform/**"
+      - ".github/workflows/secure-gitops-platform.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-scan:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: projects/secure-gitops-platform
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Compile Python source
+        run: python -m compileall -q app
+
+      - name: Build container image
+        run: docker build -t secure-gitops-demo:${{ github.sha }} .
+
+      - name: Scan source filesystem
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: fs
+          scan-ref: projects/secure-gitops-platform
+          severity: CRITICAL,HIGH
+          exit-code: "1"
+          ignore-unfixed: true
+
+      - name: Scan container image
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: secure-gitops-demo:${{ github.sha }}
+          format: table
+          severity: CRITICAL,HIGH
+          exit-code: "1"
+          ignore-unfixed: true
+
+      - name: Generate CycloneDX SBOM
+        uses: anchore/sbom-action@v0
+        with:
+          image: secure-gitops-demo:${{ github.sha }}
+          format: cyclonedx-json
+          output-file: secure-gitops-sbom.cdx.json
+
+      - name: Upload SBOM artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: secure-gitops-sbom
+          path: projects/secure-gitops-platform/secure-gitops-sbom.cdx.json
+          if-no-files-found: error
