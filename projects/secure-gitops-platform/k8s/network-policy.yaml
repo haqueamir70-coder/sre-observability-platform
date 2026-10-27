@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: secure-gitops-demo-ingress
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: secure-gitops-demo
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector: {}
+      ports:
+        - protocol: TCP
+          port: 8000
