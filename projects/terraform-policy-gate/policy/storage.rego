@@ -1,5 +1,7 @@
 package main
 
+import rego.v1
+
 deny contains msg if {
   input.resource_type == "azurerm_storage_account"
   input.https_traffic_only_enabled != true
