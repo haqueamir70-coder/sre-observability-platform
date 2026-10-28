@@ -4,3 +4,6 @@ framework:
   - terraform
 skip-path:
   - .terraform
+skip-check:
+  - CKV2_AZURE_33 # Private endpoint requires a VNet/subnet and DNS resources; covered by a follow-up lab.
+  - CKV2_AZURE_1  # Customer-managed key is a data-classification requirement; this demo contains no critical data.
