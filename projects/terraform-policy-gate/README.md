@@ -35,7 +35,6 @@ flowchart TD
 
 ```text
 terraform-policy-gate/
-├── .github/workflows/security-gate.yml
 ├── infra/
 │   ├── main.tf
 │   ├── variables.tf
@@ -47,6 +46,8 @@ terraform-policy-gate/
 │   └── insecure-storage.json
 ├── .checkov.yaml
 └── README.md
+
+The GitHub Actions workflow lives at the repository root: `.github/workflows/terraform-policy-gate.yml`.
 ```
 
 ## Run locally
