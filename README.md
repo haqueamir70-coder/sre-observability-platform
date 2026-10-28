@@ -24,6 +24,9 @@ Prometheus, Grafana, FastAPI, Docker Compose, service-level indicators, alert ru
 ### 3. Azure Cost Guardrails
 [Terraform cost governance lab](projects/azure-cost-guardrails/README.md) with a resource-group-scoped monthly budget and forecast/actual threshold notifications. Budget alerts are not hard spending caps; validate in a test subscription.
 
+### 4. Terraform Security Policy Gate
+[Terraform security gate](projects/terraform-policy-gate/README.md) with Terraform fmt/validate, Checkov IaC scanning, and OPA/Conftest policy tests that reject insecure Azure Storage settings. CI is designed to run without Azure credentials or deploying resources.
+
 ## Architecture
 
 ```mermaid
