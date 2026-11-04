@@ -31,3 +31,46 @@ flowchart LR
 
 ## Interview preparation note
 Answer with architecture rationale, security controls, operational failure scenarios, observability and test evidence. Clearly label implemented, CI-validated, deployed and planned scope.
+
+
+## Interview questions — suggested answers
+
+### 1. Answer
+
+The four golden signals are latency, traffic, errors and saturation. They provide a practical starting point for user-facing service health.
+
+### 2. Answer
+
+An SLI is a measured ratio/value such as successful requests over total requests; an SLO sets a target over a time window, such as 99.9% over 30 days.
+
+### 3. Answer
+
+Availability measures whether a service is usable; reliability is broader and includes consistent behavior, durability, correctness and recovery under failure.
+
+### 4. Answer
+
+Compute 5xx rate divided by total request rate over the same window and labels. Guard against zero denominators and ensure labels align.
+
+### 5. Answer
+
+histogram_quantile estimates a quantile from cumulative histogram buckets. Aggregate bucket rates by the le label before applying the function.
+
+### 6. Answer
+
+Symptom-based alerts detect user-visible impact; low-level thresholds often fire during harmless fluctuations and create noise. Alert on actionable conditions.
+
+### 7. Answer
+
+An error budget is the allowed failure implied by the SLO. When consumed too quickly, teams may slow risky releases and prioritize reliability work.
+
+### 8. Answer
+
+Use alert grouping, deduplication, severity, actionable thresholds, ownership, runbooks and regular review. Remove alerts that do not lead to action.
+
+### 9. Answer
+
+Runbooks give diagnosis and mitigation steps; postmortems capture timeline, impact, contributing factors and owned actions without blame.
+
+### 10. Answer
+
+Generate controlled traffic/failure, verify Prometheus query and alert state, inspect notification delivery and capture real dashboard screenshots from the running stack.
