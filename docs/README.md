@@ -74,3 +74,7 @@ Runbooks give diagnosis and mitigation steps; postmortems capture timeline, impa
 ### 10. Answer
 
 Generate controlled traffic/failure, verify Prometheus query and alert state, inspect notification delivery and capture real dashboard screenshots from the running stack.
+
+## Complete zero-to-hero guide
+
+See [ZERO-TO-HERO.md](./ZERO-TO-HERO.md) for the business scenario, architecture walkthrough, tool-by-tool explanations, implementation sequence, practical commands, troubleshooting playbook and additional scenario-based interview questions with answers.
