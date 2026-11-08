@@ -58,7 +58,7 @@ jobs:
           output-file: secure-gitops-sbom.cdx.json
 
       - name: Upload SBOM artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: secure-gitops-sbom
           path: secure-gitops-sbom.cdx.json
